@@ -18,7 +18,7 @@ include_once __DIR__ . '/functions.php';
 // Add Admin Menu
 function stm_faq_admin_menu() {
     add_menu_page('FAQ', 'FAQ', 'edit_posts', 'stm-faq', 'stm_faq_menu', 'dashicons-feedback');
-    add_submenu_page('stm-faq', 'Editor', 'Editor', 'edit_posts', 'stm-faq-editor', 'stm_faq_menu');
+    // add_submenu_page('stm-faq', 'Editor', 'Editor', 'edit_posts', 'stm-faq-editor', 'stm_faq_menu');
 }
 add_action('admin_menu', 'stm_faq_admin_menu');
 
@@ -26,24 +26,30 @@ add_action('admin_menu', 'stm_faq_admin_menu');
 // Add Menu
 function stm_faq_menu() {
 
+    $requestURI = $_SERVER['REQUEST_URI'];
+    $pluginDirUrl = plugin_dir_url(__FILE__);
     $currentPage = isset($_REQUEST['page']) ? sanitize_text_field($_REQUEST['page']) : 'stm-faq';
+    $getView = $_GET['view'] ?? false;
 
     // var_dump($currentPage);
 
-    switch ($currentPage) {
-        case 'stm-faq': 
-            $view = STM_FAQ_VIEWS_DIR . '/list.view.php';
-            break;
-
-        case 'stm-faq-editor': 
+    switch ($getView) {
+        case 'editor': 
             $view = STM_FAQ_VIEWS_DIR . '/editor.view.php';
             break;
+
+        default:
+            $view = STM_FAQ_VIEWS_DIR . '/list.view.php';
+            break;
     }
+
+    wp_enqueue_style( 'stm-faq-style', $pluginDirUrl . '/css/style.min.css' );
+    wp_enqueue_script( 'stm-faq-sortable', 'https://cdn.jsdelivr.net/gh/lukasoppermann/html5sortable@master/dist/html5sortable.min.js' );
+    wp_enqueue_script( 'stm-faq-script', $pluginDirUrl . '/js/script.js' );
 
     ?>
 
     <div class="wrap">
-        <h1><?php echo get_admin_page_title(); ?></h1>
         <?php include_once $view; ?>
     </div>
 
@@ -63,4 +69,4 @@ function stm_faq_shortcode( $atts ) {
 
     return 'Hey (STM FAQ)';
 }
-add_shortcode( 'STM-FAQ', 'stm_faq_shortcode' );
+add_shortcode( 'STM_FAQ', 'stm_faq_shortcode' );
