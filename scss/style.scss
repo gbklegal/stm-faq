@@ -63,6 +63,13 @@
             .item-inner {
                 flex-grow: 1;
             }
+
+            .controls {
+                a {
+                    text-decoration: none;
+                    display: inline-block;
+                }
+            }
         }
     }
 }
