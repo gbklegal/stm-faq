@@ -36,24 +36,81 @@ function getFaqItem( $id ):array {
 }
 
 
-
-
-
 /**
- * 
+ * create faq item
+ * @param string $question
+ * @param string $answer
+ * @return bool
  */
 function createFaqItem( string $question, string $answer ):bool {
     global $wpdb;
 
-    $wpdb->insert('stm_faq', [
+    $result = $wpdb->insert('stm_faq', [
         'question' => $question,
-        'answer' => $answer
+        'answer' => $answer,
+        'position' => 999
     ]);
 
-    var_dump($wpdb->insert_id);
+    if ($result)
+        return true;
 
     return false;
 }
 
 
-// createFaqItem( 'Test Frage 2', 'Test Antwort 2' );
+/**
+ * edit faq item
+ * @param int $id
+ * @param array $data
+ * @return bool
+ */
+function editFaqItem( int $id, array $data ):bool {
+    global $wpdb;
+
+    $result = $wpdb->update('stm_faq', $data, ['id' => $id]);
+
+    if ($result)
+        return true;
+
+    return false;
+}
+
+
+/**
+ * remove faq item
+ * @param int $id
+ * @return bool
+ */
+function removeFaqItem( int $id ):bool {
+    global $wpdb;
+
+    $result = $wpdb->delete('stm_faq', ['id' => $id]);
+
+    if ($result)
+        return true;
+
+    return false;
+}
+
+
+
+/**
+ * create admin url add new or replace old params to the url
+ * @param array $getParams - default []
+ * @param bool $resetQueryString - default false !however this keeps the 'page' get param
+ * @return string
+ */
+function adminUrl( array $getParams = [], bool $resetQueryString = false ):string {
+    $phpSelf = $_SERVER['PHP_SELF'];
+    $queryString = ($resetQueryString ? 'page=stm-faq' : $_SERVER['QUERY_STRING']);
+
+    parse_str($queryString, $queryStringArray);
+
+    $mergedArrays = array_merge($queryStringArray, $getParams);
+
+    $httpQuery = http_build_query($mergedArrays);
+
+    $finalUrl = $phpSelf . '?' . $httpQuery;
+
+    return $finalUrl;
+}
