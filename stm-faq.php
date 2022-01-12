@@ -49,7 +49,7 @@ function stm_faq_menu() {
 
     ?>
 
-    <div class="wrap">
+    <div class="wrap" id="stm-faq">
         <?php include_once $view; ?>
     </div>
 
