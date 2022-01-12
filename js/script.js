@@ -2,10 +2,11 @@ const createFaqItemBtn = document.querySelector('#createFaqItem');
 const items = document.querySelector('#faqItems');
 
 /**
- * sortable library
- * @see https://github.com/lukasoppermann/html5sortable#readme
+ * jQuery UI sortable
  */
-sortable(items, {
-    connectWith: 'grab-handle',
-    forcePlaceholderSize: true
+jQuery(function() {
+    jQuery('#faqItems').sortable({
+        handle: '.grab-handle',
+        cursor: 'grabbing'
+    });
 });

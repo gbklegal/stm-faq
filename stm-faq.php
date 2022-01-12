@@ -44,7 +44,7 @@ function stm_faq_menu() {
     }
 
     wp_enqueue_style( 'stm-faq-style', $pluginDirUrl . '/css/style.min.css' );
-    wp_enqueue_script( 'stm-faq-sortable', 'https://cdn.jsdelivr.net/gh/lukasoppermann/html5sortable@master/dist/html5sortable.min.js' );
+    wp_enqueue_script( 'stm-faq-script-stm', $pluginDirUrl . '/js/stm.js' );
     wp_enqueue_script( 'stm-faq-script', $pluginDirUrl . '/js/script.js' );
 
     ?>
