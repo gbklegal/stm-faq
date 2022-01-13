@@ -14,6 +14,13 @@ define('STM_FAQ_VIEWS_DIR', __DIR__ . '/views');
 
 include_once __DIR__ . '/functions.php';
 
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'stm_faq_overview_link');
+
+function stm_faq_overview_link($links) {
+    array_unshift($links, '<a href="' . get_admin_url(null, 'admin.php?page=stm-faq') . '">Übersicht</a>');
+    return $links;
+}
+
 
 // Add Admin Menu
 function stm_faq_admin_menu() {
