@@ -53,8 +53,8 @@ else if ($getAction === 'remove_item') {
     <div class="item" data-item-id="<?php echo $faqItemId; ?>">
         <div class="grab-handle">::</div>
         <div class="item-inner">
-            <div><?php echo $faqItemQuestion; ?></div>
-            <div><?php echo $faqItemAnswer; ?></div>
+            <div class="question"><?php echo $faqItemQuestion; ?></div>
+            <div class="answer"><?php echo $faqItemAnswer; ?></div>
         </div>
         <div class="controls">
             <a class="wp-ui-text-notification removeFaqItemBtn" href="<?php echo adminUrl(['item_id' => $faqItemId, 'action' => 'remove_item']) ?>">
