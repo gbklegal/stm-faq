@@ -1,6 +1,8 @@
 const itemsElmt = document.querySelector('#faqItems');
 const removeFaqItemBtns = document.querySelectorAll('.removeFaqItemBtn');
 const saveFaqItemsPositionBtn = document.querySelector('#saveFaqItemsPosition');
+let ignoreUnsavedProtection = false;
+let faqItemsPositions = '';
 
 /**
  * jQuery UI sortable
@@ -36,6 +38,7 @@ function positionRunner(returnAsString = false) {
 if (saveFaqItemsPositionBtn)
     saveFaqItemsPositionBtn.addEventListener('click', function(event) {
         event.preventDefault();
+        ignoreUnsavedProtection = true;
 
         let faqItemsPosition = positionRunner(true);
 
@@ -54,4 +57,16 @@ if (removeFaqItemBtns)
 
 
 window.onhashchange = stm.hash;
-window.onload = stm.hash;
+window.onload = function() {
+    stm.hash();
+    faqItemsPositions = positionRunner(true);
+};
+window.onbeforeunload = function () {
+    // this checks if the user changed the position from the faq items and saved it
+    if (positionRunner(true) !== faqItemsPositions && ignoreUnsavedProtection === false) {
+
+        stm.addNotification(1, 'Die Reihenfolge der FAQ Elemente wurde verändert, jedoch noch nicht gespeichert!');
+
+        return 'Bist du sicher?';
+    }
+};
