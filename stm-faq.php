@@ -6,6 +6,7 @@
  * Author: Tobias Röder
  * Author URI: https://tobias-roeder.de/
  * Text Domain: stm-faq
+ * Version: 1.0
  */
 
 
