@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: FAQ
- * Description: FAQs welche unter /faq auf der steuermachen.de zu finden sind
+ * Description: Verwaltung der FAQs. Passendes Plugin für das 'steuermachen' Theme.
  * Author: Tobias Röder
  * Author URI: https://tobias-roeder.de/
  * Text Domain: stm-faq
