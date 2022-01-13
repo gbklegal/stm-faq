@@ -1,5 +1,6 @@
 <?php
 
+$title = 'FAQ erstellen';
 $itemId = $_GET['item_id'] ?? false;
 $getAction = $_POST['action'] ?? false;
 
@@ -42,29 +43,35 @@ if ($itemId !== false) {
     $faqItem = getFaqItem($itemId);
     $faqQuestionValue = $faqItem['question'];
     $faqAnswerValue = $faqItem['answer'];
+    $title = 'FAQ bearbeiten';
 }
 
 ?>
 
-<form method="post">
-    <h1 class="wp-heading-inline"><?php echo get_admin_page_title(); ?></h1>
+<form method="post" id="stm-faq-editor">
+    <h1 class="wp-heading-inline"><?php echo $title; ?></h1>
     <hr>
     <a href="<?php echo adminUrl([], true); ?>">Zurück zur Übersicht</a>
-    <label class="stm-faq-label">Frage</label>
-    <input name="faq_question" placeholder="Frage hier eingeben" class="stm-faq-input" value="<?php echo $faqQuestionValue; ?>">
+    <main>
+        <section>
+            <label class="stm-faq-label">Frage</label>
+            <input name="faq_question" placeholder="Frage hier eingeben" class="stm-faq-input" value="<?php echo $faqQuestionValue; ?>">
+        </section>
+        <section>
+            <label class="stm-faq-label">Antwort</label>
+            <?php
 
-    <label class="stm-faq-label">Antwort</label>
-    <?php
+            $wpEditorSettings = [
+                'media_buttons' => false,
+                'drag_drop_upload' => false,
+                'textarea_name' => 'faq_answer'
+            ];
 
-    $wpEditorSettings = [
-        'media_buttons' => false,
-        'drag_drop_upload' => false,
-        'textarea_name' => 'faq_answer'
-    ];
+            wp_editor($faqAnswerValue, 'textarea', $wpEditorSettings);
 
-    wp_editor($faqAnswerValue, 'textarea', $wpEditorSettings);
-
-    ?>
+            ?>
+        </section>
+    </main>
 
     <p class="submit">
         <input type="submit" name="submit" id="submit" class="button-primary" value="<?php echo $submitValue; ?>">
