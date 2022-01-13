@@ -24,7 +24,7 @@ function stm_faq_overview_link($links) {
 
 // Add Admin Menu
 function stm_faq_admin_menu() {
-    add_menu_page('FAQ', 'FAQ', 'edit_posts', 'stm-faq', 'stm_faq_menu', 'dashicons-feedback');
+    add_menu_page('FAQ', 'FAQ', 'edit_posts', 'stm-faq', 'stm_faq_menu', 'dashicons-feedback', 20);
     // add_submenu_page('stm-faq', 'Editor', 'Editor', 'edit_posts', 'stm-faq-editor', 'stm_faq_menu');
 }
 add_action('admin_menu', 'stm_faq_admin_menu');
