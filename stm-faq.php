@@ -67,6 +67,28 @@ function stm_faq_shortcode( $atts ) {
         $atts
     );
 
-    return 'Hey (STM FAQ)';
+    $faqItems = getFaqItems();
+
+    $codeContent = '<div class="accordion-wrapper"><div class="accordion-inner">';
+    foreach ( $faqItems as $faqItem ):
+        $id = $faqItem['id'];
+        $question = $faqItem['question'];
+        $answer = $faqItem['answer'];
+
+        $codeContent .= '<button class="accordion" id="faq-' . $id . '">
+            <h3>'. $question . '</h3>
+            <svg class="icon-plus" width="33" height="32" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.01367 16H27.0137" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16.0137 5V27" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <div class="panel">
+            <div class="panel-inner">'. $answer .'</div>
+        </div>';
+    endforeach;
+    $codeContent .= '</div></div>';
+
+
+    return $codeContent;
 }
 add_shortcode( 'STM_FAQ', 'stm_faq_shortcode' );
