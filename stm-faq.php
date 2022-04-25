@@ -10,6 +10,10 @@
  */
 
 
+// if direct call, abort
+defined('ABSPATH') or exit;
+
+
 // define fixed paths/directories
 define('STM_FAQ_VIEWS_DIR', __DIR__ . '/views');
 
