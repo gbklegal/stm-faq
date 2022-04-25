@@ -68,7 +68,7 @@ function stm_faq_menu() {
         <?php include_once $view; ?>
     </div>
 
-    <?php
+<?php
 }
 
 
@@ -126,7 +126,7 @@ function stm_faq_shortcode( $atts ) {
         $atts
     );
 
-    $faqItems = getFaqItems();
+    $faqItems = get_faq_items();
 
     $codeContent = '<div class="accordion-wrapper"><div class="accordion-inner">';
     foreach ( $faqItems as $faqItem ):
