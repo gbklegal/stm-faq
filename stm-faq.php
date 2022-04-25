@@ -6,7 +6,7 @@
  * Author: Tobias Röder
  * Author URI: https://tobias-roeder.de/
  * Text Domain: stm-faq
- * Version: 1.0
+ * Version: 1.1.0
  */
 
 
@@ -63,6 +63,50 @@ function stm_faq_menu() {
 
     <?php
 }
+
+
+// Add REST API
+add_action('rest_api_init', function() {
+    /**
+     * FAQs
+     */
+    register_rest_route('stm-faq/v1', 'faqs', [
+        'methods' => 'GET',
+        'callback' => function() {
+            $faq_items = get_faq_items();
+            $reponse = [];
+
+            foreach ($faq_items as $faq_item ) {
+                $response[] = [
+                    'question' => $faq_item['question'],
+                    'answer' => strip_tags($faq_item['answer'])
+                ];
+            }
+
+            return $response;
+        }
+    ]);
+
+    /**
+     * FAQs (HTML/rendered)
+     */
+    register_rest_route('stm-faq/v1', 'faqs/rendered', [
+        'methods' => 'GET',
+        'callback' => function() {
+            $faq_items = get_faq_items();
+            $reponse = [];
+
+            foreach ($faq_items as $faq_item ) {
+                $response[] = [
+                    'question' => $faq_item['question'],
+                    'answer' => $faq_item['answer']
+                ];
+            }
+
+            return $response;
+        }
+    ]);
+});
 
 
 // Add Shortcode
