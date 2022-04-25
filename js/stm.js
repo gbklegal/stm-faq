@@ -1,6 +1,6 @@
 /**
  * stm object is an equivalent to the STM PHP class
- * @origin this is from copied from the 'Bestellungen' plugin
+ * @origin this is copied from the 'Bestellungen' plugin
  */
 const stm = {
     /**

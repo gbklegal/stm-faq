@@ -1,40 +1,40 @@
 <?php
 
-$faqItems = getFaqItems();
-$wpEditorSettings = [
+$faq_items = get_faq_items();
+$wp_editor_settings = [
     'media_buttons' => false,
     'drag_drop_upload' => false,
     'textarea_name' => 'faq_answer'
 ];
 
-$itemId = $_GET['item_id'] ?? false;
-$getAction = $_GET['action'] ?? '';
+$item_id = $_GET['item_id'] ?? false;
+$get_action = $_GET['action'] ?? '';
 
-if ($getAction === 'save_items') {
+if ($get_action === 'save_items') {
     $success = false;
-    $itemsPosition = $_GET['items_position'] ?? '';
-    $itemsPositionArray = explode(',', $itemsPosition);
+    $items_position = $_GET['items_position'] ?? '';
+    $items_position_array = explode(',', $items_position);
 
-    if (!empty($itemsPosition))
-        foreach($itemsPositionArray as $positionIndex => $itemId) {
-            $result = editFaqItem($itemId, ['position' => $positionIndex]);
+    if (!empty($items_position))
+        foreach($items_position_array as $position_index => $item_id) {
+            $result = edit_faq_item($item_id, ['position' => $position_index]);
             var_dump($result);
             if ($result)
                 $success = true;
         }
 
     if ($success === true)
-        header('Location: ' . adminUrl([], true) . '#success_saved_position');
+        header('Location: ' . rel_admin_url([], true) . '#success_saved_position');
     else
-        header('Location: ' . adminUrl([], true) . '#failed_saved_position');
+        header('Location: ' . rel_admin_url([], true) . '#failed_saved_position');
 }
-else if ($getAction === 'remove_item') {
-    $result = removeFaqItem($itemId);
+else if ($get_action === 'remove_item') {
+    $result = remove_faq_item($item_id);
 
     if ($result === true)
-        header('Location: ' . adminUrl([], true) . '#success_removed_faq_item');
+        header('Location: ' . rel_admin_url([], true) . '#success_removed_faq_item');
     else
-        header('Location: ' . adminUrl([], true) . '#failed_removed_faq_item');
+        header('Location: ' . rel_admin_url([], true) . '#failed_removed_faq_item');
     }
 
 ?>
@@ -45,23 +45,23 @@ else if ($getAction === 'remove_item') {
 
 <div id="faqItems" class="items">
     <?php
-        foreach ($faqItems as $faqItem):
-            $faqItemId = $faqItem['id'] ?? false;
-            $faqItemQuestion = $faqItem['question'] ?? '';
-            $faqItemAnswer = $faqItem['answer'] ?? '';
+        foreach ($faq_items as $faq_item):
+            $faq_item_id = $faq_item['id'] ?? false;
+            $faq_item_question = $faq_item['question'] ?? '';
+            $faq_item_answer = $faq_item['answer'] ?? '';
     ?>
-    <div class="item" data-item-id="<?php echo $faqItemId; ?>">
+    <div class="item" data-item-id="<?php echo $faq_item_id; ?>">
         <div class="grab-handle">::</div>
         <div class="item-inner">
-            <div class="question"><?php echo $faqItemQuestion; ?></div>
-            <div class="answer"><?php echo $faqItemAnswer; ?></div>
+            <div class="question"><?php echo $faq_item_question; ?></div>
+            <div class="answer"><?php echo $faq_item_answer; ?></div>
         </div>
         <div class="controls">
-            <a class="wp-ui-text-notification removeFaqItemBtn" href="<?php echo adminUrl(['item_id' => $faqItemId, 'action' => 'remove_item']) ?>">
+            <a class="wp-ui-text-notification removeFaqItemBtn" href="<?php echo rel_admin_url(['item_id' => $faq_item_id, 'action' => 'remove_item']) ?>">
                 <span class="dashicons dashicons-trash"></span>
             </a>
             <span>-</span>
-            <a href="<?php echo adminUrl(['item_id' => $faqItemId, 'view' => 'editor']) ?>">
+            <a href="<?php echo rel_admin_url(['item_id' => $faq_item_id, 'view' => 'editor']) ?>">
                 <span class="dashicons dashicons-edit"></span>
             </a>
         </div>
@@ -69,8 +69,8 @@ else if ($getAction === 'remove_item') {
     <?php endforeach; ?>
 </div>
 
-<a class="button button-primary button-large" href="<?php echo adminUrl(['action' => 'save_items']); ?>" id="saveFaqItemsPosition">speichern</a>
-<a class="button button-primary button-large" href="<?php echo adminUrl(['view' => 'editor']); ?>">FAQ Element erstellen</a>
+<a class="button button-primary button-large" href="<?php echo rel_admin_url(['action' => 'save_items']); ?>" id="saveFaqItemsPosition">speichern</a>
+<a class="button button-primary button-large" href="<?php echo rel_admin_url(['view' => 'editor']); ?>">+ FAQ Element erstellen</a>
 
 
 <?php

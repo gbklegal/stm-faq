@@ -6,8 +6,12 @@
  * Author: Tobias Röder
  * Author URI: https://tobias-roeder.de/
  * Text Domain: stm-faq
- * Version: 1.0
+ * Version: 1.1.0
  */
+
+
+// if direct call, abort
+defined('ABSPATH') or exit;
 
 
 // define fixed paths/directories
@@ -51,18 +55,65 @@ function stm_faq_menu() {
             break;
     }
 
-    wp_enqueue_style( 'stm-faq-style', $pluginDirUrl . '/css/style.min.css' );
-    wp_enqueue_script( 'stm-faq-script-stm', $pluginDirUrl . '/js/stm.js' );
-    wp_enqueue_script( 'stm-faq-script', $pluginDirUrl . '/js/script.js' );
+    // add sortable ability
+    wp_enqueue_script('jquery-ui-sortable-js', includes_url('js/jquery/ui/sortable.min.js'), [], '1.13.1');
 
-    ?>
+    wp_enqueue_style( 'stm-faq-style', $pluginDirUrl . 'css/style.min.css' );
+    wp_enqueue_script( 'stm-faq-script-stm', $pluginDirUrl . 'js/stm.js' );
+    wp_enqueue_script( 'stm-faq-script', $pluginDirUrl . 'js/script.js' );
+
+?>
 
     <div class="wrap" id="stm-faq">
         <?php include_once $view; ?>
     </div>
 
-    <?php
+<?php
 }
+
+
+// Add REST API
+add_action('rest_api_init', function() {
+    /**
+     * FAQs
+     */
+    register_rest_route('stm-faq/v1', 'faqs', [
+        'methods' => 'GET',
+        'callback' => function() {
+            $faq_items = get_faq_items();
+            $reponse = [];
+
+            foreach ($faq_items as $faq_item ) {
+                $response[] = [
+                    'question' => $faq_item['question'],
+                    'answer' => strip_tags($faq_item['answer'])
+                ];
+            }
+
+            return $response;
+        }
+    ]);
+
+    /**
+     * FAQs (HTML/rendered)
+     */
+    register_rest_route('stm-faq/v1', 'faqs/rendered', [
+        'methods' => 'GET',
+        'callback' => function() {
+            $faq_items = get_faq_items();
+            $reponse = [];
+
+            foreach ($faq_items as $faq_item ) {
+                $response[] = [
+                    'question' => $faq_item['question'],
+                    'answer' => $faq_item['answer']
+                ];
+            }
+
+            return $response;
+        }
+    ]);
+});
 
 
 // Add Shortcode
@@ -75,7 +126,7 @@ function stm_faq_shortcode( $atts ) {
         $atts
     );
 
-    $faqItems = getFaqItems();
+    $faqItems = get_faq_items();
 
     $codeContent = '<div class="accordion-wrapper"><div class="accordion-inner">';
     foreach ( $faqItems as $faqItem ):
