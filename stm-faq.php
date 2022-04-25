@@ -51,11 +51,14 @@ function stm_faq_menu() {
             break;
     }
 
-    wp_enqueue_style( 'stm-faq-style', $pluginDirUrl . '/css/style.min.css' );
-    wp_enqueue_script( 'stm-faq-script-stm', $pluginDirUrl . '/js/stm.js' );
-    wp_enqueue_script( 'stm-faq-script', $pluginDirUrl . '/js/script.js' );
+    // add sortable ability
+    wp_enqueue_script('jquery-ui-sortable-js', includes_url('js/jquery/ui/sortable.min.js'), [], '1.13.1');
 
-    ?>
+    wp_enqueue_style( 'stm-faq-style', $pluginDirUrl . 'css/style.min.css' );
+    wp_enqueue_script( 'stm-faq-script-stm', $pluginDirUrl . 'js/stm.js' );
+    wp_enqueue_script( 'stm-faq-script', $pluginDirUrl . 'js/script.js' );
+
+?>
 
     <div class="wrap" id="stm-faq">
         <?php include_once $view; ?>
