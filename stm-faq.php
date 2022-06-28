@@ -6,7 +6,7 @@
  * Author: Tobias Röder
  * Author URI: https://tobias-roeder.de/
  * Text Domain: stm-faq
- * Version: 1.1.0
+ * Version: 1.2.0
  */
 
 
@@ -16,6 +16,7 @@ defined('ABSPATH') or exit;
 
 // define fixed paths/directories
 define('STM_FAQ_VIEWS_DIR', __DIR__ . '/views');
+define('STM_FAQ_LANGS', ['de', 'en']);
 
 include_once __DIR__ . '/functions.php';
 
@@ -80,7 +81,7 @@ add_action('rest_api_init', function() {
     register_rest_route('stm-faq/v1', 'faqs', [
         'methods' => 'GET',
         'callback' => function() {
-            $faq_items = get_faq_items();
+            $faq_items = get_faq_items(esc_sql($_GET['lang']));
             $reponse = [];
 
             foreach ($faq_items as $faq_item ) {
@@ -100,7 +101,7 @@ add_action('rest_api_init', function() {
     register_rest_route('stm-faq/v1', 'faqs/rendered', [
         'methods' => 'GET',
         'callback' => function() {
-            $faq_items = get_faq_items();
+            $faq_items = get_faq_items(esc_sql($_GET['lang']));
             $reponse = [];
 
             foreach ($faq_items as $faq_item ) {
@@ -121,8 +122,7 @@ function stm_faq_shortcode( $atts ) {
 
     // Attributes
     $atts = shortcode_atts(
-        array(
-        ),
+        array(),
         $atts
     );
 
