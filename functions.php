@@ -9,12 +9,18 @@
 /**
  * Get FAQ Items returns all Q and A from database
  * 
+ * @param string $lang - optional
+ * 
  * @return array
  */
-function get_faq_items():array {
+function get_faq_items( string $lang = 'de' ):array {
     global $wpdb;
 
-    $results = $wpdb->get_results('SELECT id, question, answer FROM stm_faq ORDER BY position ASC', 'ARRAY_A');
+    if (!in_array($lang, STM_FAQ_LANGS))
+        $lang = 'de';
+
+    $prepared_sql = $wpdb->prepare('SELECT id, question, answer, lang FROM stm_faq WHERE lang = %s ORDER BY position ASC', $lang);
+    $results = $wpdb->get_results($prepared_sql, 'ARRAY_A');
 
     return $results;
 }
@@ -29,7 +35,7 @@ function get_faq_items():array {
 function get_faq_item( $id ):array {
     global $wpdb;
 
-    $results = $wpdb->get_results("SELECT id, question, answer FROM stm_faq WHERE id = {$id}", 'ARRAY_A');
+    $results = $wpdb->get_results("SELECT id, question, answer, lang FROM stm_faq WHERE id = {$id}", 'ARRAY_A');
     $result = $results[0];
 
     if (!$result)
