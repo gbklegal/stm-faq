@@ -55,6 +55,7 @@ else if ($get_action === 'remove_item') {
         <div class="item-inner">
             <div class="question"><?php echo $faq_item_question; ?></div>
             <div class="answer"><?php echo $faq_item_answer; ?></div>
+            <pre class="id">ID: <code><?php echo $faq_item_id; ?></code></pre>
         </div>
         <div class="controls">
             <a class="wp-ui-text-notification removeFaqItemBtn" href="<?php echo rel_admin_url(['item_id' => $faq_item_id, 'action' => 'remove_item']) ?>">
